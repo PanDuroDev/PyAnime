@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <title>[Anime3rb.com] A-Channel - 1</title>
+
+        
+    <link rel="modulepreload" href="/js/video.js?id=267565c219d3974c6beca2f8eddba551" />
+    <script type="module" src="/js/video.js?id=267565c219d3974c6beca2f8eddba551"></script>
+    <link rel="stylesheet" href="/css/videojs.css?id=37e26413d3eba8fff4cd4a203783f581" />
+</head>
+<body style="position: relative">
+    
+    <video id="video" controls preload="none" autoplay="true" data-setup="{}" 
+        class="video-js vjs-default-skin vjs-big-play-centered vjs-fill" playsinline>
+        <p class="vjs-no-js">قم بتفعيل الجافاسكريبت في المتصفح لمشاهدة الفيديو</p>
+    </video>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            let player = videojs('video', {
+                inactivityTimeout: 1000, 
+                language: 'ar',
+                poster: 'https://files-4.vid3rb.com/files/0020250178/9b56de9b-60c7-419e-9c27-a5cdf6abfb7c/thumbnail.001.jpeg'
+            });
+        })
+    </script>
+
+    
+    <script>
+        if (window.parent !== window.self) {
+    var video = document.getElementById('video');
+    
+    setInterval(function() {
+        window.parent.postMessage({
+            event: 'timeUpdate',
+            currentTime: video.currentTime,
+            progress: video.currentTime / video.duration,
+        }, '*');
+    }, 1000);
+}
+        document.addEventListener("DOMContentLoaded", function(event) {
+            let player = videojs('video', {
+                inactivityTimeout: 1000, 
+                language: 'ar',
+                poster: 'https://files-4.vid3rb.com/files/0020250178/9b56de9b-60c7-419e-9c27-a5cdf6abfb7c/thumbnail.001.jpeg'
+            });
+
+            window.player = player;
+
+            player.ready(function() {
+    
+    var video_sources = [];
+
+    var video_sources = [{"src":"https:\/\/video.vid3rb.com\/video\/9b56de9d-de1c-4365-9a02-c0c5eec29547?speed=205&token=c6a1614fb658936af636cda411bb60fd0435bafa2bf02f75eac2087daf1b8846&expires=1781827163","type":"video\/mp4","label":"720p","res":"720","premium":false},{"src":"https:\/\/video.vid3rb.com\/video\/9b56de9d-d13c-4850-9cfe-043f70c160f4?speed=87&token=a5e375309bcc46f2985318b85b52f43794fa3c909d8f0e73ac93e319ab0610cb&expires=1781827163","type":"video\/mp4","label":"480p","res":"480","premium":false}];
+
+let preferredQuality = [];
+
+try {
+    preferredQuality = JSON.parse(localStorage.getItem('preferredQuality')) || [];
+} catch (e) {}
+
+this.videoJsResolutionSwitcher({
+    default: preferredQuality.find(quality => video_sources.filter(video => video.src).map(video => video.res).includes(quality)) ?? 'low',
+            customSourcePicker: function(player, sources, label){
+            var source = sources[0];
+
+            if(player.src() == sources[0].src) {
+                return player;
+            }
+
+            if(source['premium']) {
+                var content = document.createElement('div');
+                content.classList.add('premium-content');
+    
+                content.innerHTML = `
+                    <svg viewBox="0 0 24 24" stroke="currentColor" style="height: 4rem;width: 4rem;color: rgb(254 202 202)" fill="none" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"></path>
+                    </svg>
+                    <h3 style="margin: 0;">عذراً، هذه الجودة حصرية للمشتركين في العضوية المميزة.</h3>
+                    <p style="margin: 0;">بدّل لجودة أخرى أو اشترك الآن للاستمتاع بإمكانية مشاهدة الفيديوهات بجودة عالية مع حجم أقل!</p>
+                `;
+    
+                var modal = player.addChild('ModalDialog', {content: content, temporary: true});
+                
+                modal.open();
+
+                var previousSrc = video_sources.find(video => video.src == player.src());
+
+                player.currentResolution(previousSrc ? previousSrc.label : 'low');
+            } else {
+                player.src(source);
+            }
+
+            return player;
+        }
+    });
+
+    this.updateSrc(video_sources);
+
+player.on('error', function (){
+    if(video_sources.length <= 1) return;
+    let resolutions = '';
+    video_sources.forEach(element => {
+        resolutions += '<button onclick="player.currentResolution(\''+element['label']+'\'); this.parentNode.parentNode.remove()">'+ element['label'] +'</button>';
+    });
+    document.querySelector('.vjs-error-display .vjs-modal-dialog-content').innerHTML = `
+        <div style="padding: 15px;">${document.querySelector('.vjs-error-display .vjs-modal-dialog-content').innerHTML}</div>
+        <div class="resolution-box">
+            <p>قد تكون المشكلة في جودة معينة، جرّب غيرها.</p>
+
+            <div>
+                ${resolutions}
+            </div>
+        </div>
+    `;
+});
+
+this.on('resolutionchange', function(){
+    video_sources.forEach(video => {
+        if(video.src.includes(player.src()))  {
+            let preferredQuality = [];
+
+            try {
+                preferredQuality = JSON.parse(localStorage.getItem('preferredQuality')) || [];
+            } catch (e) {}
+            
+            preferredQuality = preferredQuality.filter((q) => q !== video.res);
+            preferredQuality.unshift(video.res);
+
+            localStorage.setItem('preferredQuality', JSON.stringify(preferredQuality));
+        }
+    });
+})    
+    this.hotkeys({
+    volumeStep: 0.1, 
+    seekStep: 5, 
+    enableModifiersForNumbers: false,
+    enableVolumeScroll: false
+});    
+    this.mobileUi({
+    fullscreen: {
+        enterOnRotate: true,
+        exitOnRotate: true,
+        lockOnRotate: true
+    },
+    touchControls: {
+        seekSeconds: 10,
+        tapTimeout: 300,
+        disableOnEnd: false
+    }
+});    
+        
+        
+    this.vttThumbnails({
+        src: 'https://files-2.vid3rb.com/files/0020250178/9b56de9b-60c7-419e-9c27-a5cdf6abfb7c/thumbnails.vtt'
+    });
+
+    player.on('touchstart', function(e) { 
+        thumbnails = document.querySelector('.vjs-vtt-thumbnail-display');
+    
+        if (window.getComputedStyle(thumbnails).opacity !== '0') {
+            this.vttThumbnails.hideThumbnailHolder()
+        }
+    });
+    
+    this.landscapeFullscreen({
+    fullscreen: {
+        enterOnRotate: true,
+        exitOnRotate: true,
+        alwaysInLandscapeMode: true,
+        iOS: false
+    }
+});});            
+                        
+                        
+                    });
+    </script>
+
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"119ca389087148d0a7a5bdb005d1ee0c","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+    
+    
